@@ -38,8 +38,22 @@ class Rectangle {
                 '}';
     }
 
+    public boolean isSquare() {
+        return width == height;
+    }
+
     public int getArea() {
         return width * height;
+    }
+}
+
+class RectangleFactory {
+    public static Rectangle newRectangle(int width, int height){
+        return new Rectangle(width, height);
+    }
+
+    public static Rectangle newSquare(int side) {
+        return new Rectangle(side, side);
     }
 }
 
@@ -80,5 +94,10 @@ class Demo {
         Square sq = new Square();
         sq.setWidth(5);
         useIt(sq);
+
+        Rectangle rectangle = RectangleFactory.newRectangle(12, 14);
+        Rectangle square = RectangleFactory.newSquare(13);
+        useIt(rectangle);
+        useIt(square);
     }
 }
