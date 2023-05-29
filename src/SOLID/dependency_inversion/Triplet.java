@@ -16,15 +16,15 @@ public class Triplet<T extends Person,R extends Relationship> {
         this.child = child;
     }
 
-    public String getValue0(){
-        return parent.name;
+    public Person getValue0(){
+        return parent;
     }
 
     public R getValue1(){
         return relationship;
     }
 
-    public String getValue2(){
-        return child.name;
+    public Person getValue2(){
+        return child;
     }
 }

@@ -10,6 +10,8 @@ package SOLID.dependency_inversion;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
+import java.util.stream.Collectors;
 
 enum Relationship {
     PARENT, CHILD, SIBLING
@@ -23,7 +25,11 @@ class Person {
     }
 }
 
-class Relationships {
+interface RelationshipBrowser {
+    List<Person> findAllChildrenOf(String name);
+}
+
+class Relationships implements RelationshipBrowser { // low-level module
     private List<Triplet<Person, Relationship>> relations = new ArrayList<>();
 
     public List<Triplet<Person, Relationship>> getRelations() {
@@ -34,15 +40,29 @@ class Relationships {
         relations.add(new Triplet<Person, Relationship>(parent, Relationship.PARENT, child));
         relations.add(new Triplet<Person, Relationship>(child, Relationship.CHILD, parent));
     }
+
+    @Override
+    public List<Person> findAllChildrenOf(String name) {
+        return relations.stream()
+                .filter(x -> Objects.equals(x.getValue0().name, name) && x.getValue1() == Relationship.PARENT)
+                .map(Triplet::getValue2)
+                .collect(Collectors.toList());
+    }
 }
 
 class Research {
-    public Research(Relationships relationships){
-        List<Triplet<Person, Relationship>> relations = relationships.getRelations();
-
-        relations.stream().filter(x -> x.getValue0().equals("John") && x.getValue1() == Relationship.PARENT)
-                .forEach(ch -> System.out.println("John has a child called " + ch.getValue2()));
+    // high-level module
+//    public Research(Relationships relationships){ // depends with "relationships" low-level, but should depends abstraction
+//        List<Triplet<Person, Relationship>> relations = relationships.getRelations();
+//
+//        relations.stream().filter(x -> x.getValue0().equals("John") && x.getValue1() == Relationship.PARENT)
+//                .forEach(ch -> System.out.println("John has a child called " + ch.getValue2()));
+//    }
+    public Research(RelationshipBrowser browser) {
+        List<Person> children = browser.findAllChildrenOf("John");
+        children.forEach(ch -> System.out.println("John has a child called: " + ch.name));
     }
+
 }
 
 class Demo {
