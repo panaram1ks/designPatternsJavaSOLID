@@ -5,6 +5,11 @@ package bridge;
 
 // VectorCircleRenderer, VectorSquareRenderer, RasterCircleRenderer ...
 
+import com.google.inject.AbstractModule;
+import com.google.inject.Guice;
+import com.google.inject.Inject;
+import com.google.inject.Injector;
+
 interface Renderer {
     void renderCircle(float radius);
 }
@@ -24,6 +29,7 @@ class RasterRenderer implements Renderer {
 }
 
 abstract class Shape {
+
     protected Renderer renderer;
 
     public Shape(Renderer renderer) {
@@ -31,6 +37,7 @@ abstract class Shape {
     }
 
     public abstract void draw();
+
     public abstract void resize(float factor);
 }
 
@@ -38,6 +45,7 @@ class Circle extends Shape {
 
     public float radius;
 
+    @Inject
     public Circle(Renderer renderer) {
         super(renderer);
     }
@@ -58,13 +66,31 @@ class Circle extends Shape {
     }
 }
 
-class Demo {
+class ShapeModule extends AbstractModule {
+    @Override
+    protected void configure() {
+        bind(Renderer.class).to(VectorRenderer.class);
+    }
+}
+
+public class Demo {
+//    public static void main(String[] args) {
+//        RasterRenderer rasterRenderer = new RasterRenderer();
+//        VectorRenderer vectorRenderer = new VectorRenderer();
+//        Circle circle = new Circle(vectorRenderer, 5);
+//        circle.draw();
+//        circle.resize(2);
+//        circle.draw();
+//    }
     public static void main(String[] args) {
-        RasterRenderer rasterRenderer = new RasterRenderer();
-        VectorRenderer vectorRenderer = new VectorRenderer();
-        Circle circle = new Circle(vectorRenderer, 5);
+        Injector injector = Guice.createInjector(new ShapeModule());
+        Circle circle = injector.getInstance(Circle.class);
+
+        circle.radius = 3;
         circle.draw();
         circle.resize(2);
         circle.draw();
+
     }
+
 }
