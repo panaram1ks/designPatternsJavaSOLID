@@ -1,4 +1,4 @@
-package flyweight;
+package flyweight.firstexample;
 
 import java.util.ArrayList;
 import java.util.Arrays;
