@@ -1,4 +1,4 @@
-package proxy.authorversion;
+package proxy.authorversion.protectionproxy;
 
 
 public interface Drivable {
