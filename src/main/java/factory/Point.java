@@ -8,6 +8,18 @@ public class Point {
         this.y = y;
     }
 
+    public static class Factory {
+
+        public static Point newCartesianPoint(double x, double y) {
+            return new Point(x, y);
+        }
+
+        public static Point newPolarPoint(double rho, double theta) {
+            return new Point(rho * Math.cos(theta), rho * Math.sin(theta));
+        }
+
+    }
+
 //    private Point(double a, double b, CoordinateSystem cs) {
 //        switch (cs) {
 //            case POLAR:
@@ -21,12 +33,12 @@ public class Point {
 //        }
 //    }
 
-    public static Point newCartesianPoint(double x, double y) {
-        return new Point(x, y);
-    }
-
-    public static Point newPolarPoint(double rho, double theta) {
-        return new Point(rho * Math.cos(theta), rho * Math.sin(theta));
-    }
+//    public static Point newCartesianPoint(double x, double y) {
+//        return new Point(x, y);
+//    }
+//
+//    public static Point newPolarPoint(double rho, double theta) {
+//        return new Point(rho * Math.cos(theta), rho * Math.sin(theta));
+//    }
 
 }

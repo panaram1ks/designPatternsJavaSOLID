@@ -3,7 +3,7 @@ package factory;
 public class Main {
 
     public static void main(String[] args) {
-        Point point = Point.newPolarPoint(2, 3);
+        Point point = Point.Factory.newPolarPoint(2, 3);
 
     }
 
