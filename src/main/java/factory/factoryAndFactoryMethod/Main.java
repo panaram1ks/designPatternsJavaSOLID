@@ -1,4 +1,4 @@
-package factory;
+package factory.factoryAndFactoryMethod;
 
 public class Main {
 
